@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div>
+    <div>
+        <input type="button" value="添加车辆信息" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新建车辆信息</h4>
+      </div>
+      <div class="modal-body">
+       <form method="post">
+            {% csrf_token %}
+              {% for field in form %}
+            <div class="form-group">
+              <label>{{field.label}}</label>
+                {{ field }}
+                <span style="color:red;">{{ field.errors.0 }}</span>
+            </div>
+              {% endfor %}
+
+
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+        <button id =”btnSave“ type="button" class="btn btn-primary">保 存</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock%}

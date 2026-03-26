@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h1>违规警告</h1>
+  {% for vehicle in vehicles %}
+    <div>
+      <h3>{{ vehicle.license_plate_number }}</h3>
+      <p>违停次数: {{ vehicle.violation_count }}</p>
+      {% if vehicle.violation_count > 3 %}
+        <p style="color: red;">违停次数超过3次，请及时处理！</p>
+      {% endif %}
+    </div>
+    <hr>
+  {% empty %}
+    <p>没有违规记录。</p>
+  {% endfor %}
+{% endblock%}

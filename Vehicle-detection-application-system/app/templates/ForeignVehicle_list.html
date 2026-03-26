@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <div>
+
+    <div class="container">
+      <div style="margin-bottom: 10px">
+        <a class="btn btn-success" href="/ForeignVehicle/add/">
+          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+          新建车辆信息
+        </a>
+        <div style="float:right;width:300px;">
+          <form method="get">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="搜素" value="{{search_data}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+              </span>
+            </div><!-- /input-group -->
+          </form>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true">
+            校外车辆信息列表
+          </span>
+        </div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>姓名</th>
+               <th>性别</th>
+              <th>电话号码</th>
+              <th>车牌号码</th>
+              <th>违停次数</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for obj in queryset %}
+            <tr>
+              <th>{{obj.id}}</th>
+              <td>{{obj.name}}</td>
+              <td>{{obj.get_gender_display}}</td>
+              <td>{{obj.phone}}</td>
+              <td>{{obj.license_plate_number}}</td>
+              <td>{{obj.violation_count}}</td>
+              <td>
+                <a class="btn btn-primary" href="/ForeignVehicle/{{ obj.id}}/edit/">编辑</a>
+                <a class="btn btn-danger" href="/ForeignVehicle/{{ obj.id }}/delete">删除</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="clearfix">
+      <ul class="pagination">
+        {{ page_string }}
+        </ul>
+        </div>
+<!--      <script>-->
+<!--        function validateForm() {-->
+<!--          var pageInput = document.querySelector('input[name="page"]');-->
+<!--          if (pageInput.value.trim() === '') {-->
+<!--            alert('请输入页码！');-->
+<!--            return false; // 阻止表单提交-->
+<!--          }-->
+<!--          return true; // 允许表单提交-->
+<!--        }-->
+<!--      </script>-->
+    </div>
+  </div>
+{% endblock%}
+
+
+

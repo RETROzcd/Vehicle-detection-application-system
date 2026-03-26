@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>车辆检测应用系统</title>
+  <link rel="stylesheet" href="{%static  'plugins/bootstrap-3.4.1-dist/css/bootstrap.min.css' %}">
+  <style>
+    /* 设置导航栏样式 */
+    .navbar {
+      border-radius: 0;
+      background-color: #1976D2;
+    }
+
+    .navbar a {
+      color: #fff;
+    }
+
+    .content {
+      width: 100%;
+      height: 100%;
+    }
+
+    .content-left {
+      background-color: #2C3E50;
+      height: 100vh;
+      width: 200px;
+      position: fixed;
+      top: 60px;
+      /* 将侧边栏位置下移与导航栏不重叠 */
+      left: 0;
+      padding-top: 70px;
+    }
+
+    .content-right {
+      margin-left: 200px;
+      padding: 20px;
+    }
+
+    .seg {
+      height: 2px;
+      width: 100%;
+      background-color: #E0E0E0;
+    }
+
+    .nav {
+      margin: 5px;
+    }
+
+    .nav-title {
+      height: 50px;
+      width: 100%;
+      color: #FAFAFA;
+      text-align: center;
+      line-height: 50px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #34495E;
+    }
+
+    .nav-title a {
+      text-decoration: none;
+      color: #FAFAFA;
+    }
+
+    .nav-content {
+      width: 100%;
+      height: 100%;
+      background-color: #2C3E50;
+    }
+
+    .nav-content>a {
+      display: block;
+      height: 40px;
+      width: 100%;
+      color: #EEEEEE;
+      text-decoration: none;
+      text-align: center;
+      line-height: 40px;
+      font-size: 16px;
+    }
+
+    .nav-content>a:hover {
+      display: block;
+      height: 40px;
+      width: 100%;
+      color: #FFFFFF;
+      text-decoration: none;
+      text-align: center;
+      line-height: 40px;
+      background-color: #1976D2;
+    }
+  </style>
+
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/user/list/">车辆管理系统</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false">{{request.session.info.name}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/root/info/">个人信息</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="/logout/">注销</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="content">
+    <div class="content-left">
+      <div class="seg"></div>
+      <div class="nav">
+        <div class="nav-menu">
+          <div class="nav-title"><a href="#">首页</a></div>
+        </div>
+        <div class="nav-menu">
+          <div class="nav-title">车辆管理</div>
+          <div class="nav-content">
+            <a href="/user/list/">校内车辆</a>
+            <a href="/ForeignVehicle/list/">校外车辆</a>
+          </div>
+        </div>
+        <div class="nav-menu">
+          <div class="nav-title"><a href="violation-warning/">设备控制</a></div>
+        </div>
+        <div class="nav-menu">
+          <div class="nav-title"><a href="chart/list/">数据分析</a></div>
+        </div>
+      </div>
+      <div class="seg"></div>
+    </div>
+    <div class="content-right">
+      {% block content %}{% endblock%}
+    </div>
+  </div>
+
+
+  <script src="{% static 'js/jquery-3.7.1.min.js'%}"></script>
+  <script src="{% static 'plugins/bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+  {%block js%}{%endblock%}
+  <script type="text/javascript">
+    $(function() {
+      //1、隐藏所有的子标题
+      $(".nav-menu").each(function() {
+        $(this).children(".nav-content").hide();
+      });
+      //2、给所有的主标题绑定单击事件
+      $(".nav-title").each(function() {
+        $(this).click(function() {
+          //展开/收起当前子菜单栏
+          //获取到当前点击主标题对应的子标题
+          var navEle = $(this).parents(".nav-menu").children(".nav-content");
+          if (navEle.css("display") != "none") {
+            //向上收起
+            navEle.slideUp(1000);
+          } else {
+            /**
+             * 当向下展开一个子菜单的时候，要保证其他的子菜单都关闭
+             */
+            var navMenu = navEle.parents(".nav-menu");
+            // 获取除了navMenu其他的兄弟节点
+            var otherNavs = navMenu.siblings();
+
+            otherNavs.each(function() {
+              $(this).children(".nav-content").slideUp(1000);
+            });
+            //向下展开
+            navEle.slideDown(1000);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

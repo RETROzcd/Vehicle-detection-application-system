@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1-dist/css/bootstrap.min.css' %}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(#141e30, #243b55);
+            margin: 0;
+        }
+
+        /* 设置导航栏样式 */
+        .navbar {
+            width: 100%;
+            background-color: #242F42;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            margin-left: -350px;
+            align-items: center;
+
+        }
+
+        .navbar .navbar-brand {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        /* 设置登录框样式 */
+        .account {
+            width: 400px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            box-shadow: 5px 5px 20px #aaa;
+            background-color: rgba(0, 0, 0, 0.2);
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20vh;
+            padding: 20px 40px;
+        }
+
+        /* 设置登录标题样式 */
+        .account h2 {
+            color: white;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* 设置表单组样式 */
+        .account .form-group {
+            position: relative;
+            width: 100%;
+        }
+
+        /* 设置输入框样式 */
+        .account .form-group input {
+            outline: none;
+            border: none;
+            width: 100%;
+            padding: 10px 0;
+            background-color: transparent;
+            color: white;
+            font-size: 16px;
+            border-bottom: 1px solid #fff;
+            background-color: transparent;
+        }
+
+        /* 设置标签样式 */
+        .account .form-group label {
+            color: #fff;
+            pointer-events: none;
+            transition: all 0.5s;
+        }
+
+        /* 设置自定义按钮样式 */
+        .account .custom-button {
+            overflow: hidden;
+            position: relative;
+            padding: 10px 20px;
+            color: #03e9f4;
+            transition: all 0.5s;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -5px;
+            background-color: transparent;
+        }
+
+        .account .custom-button:hover {
+            color: #fff;
+            border-radius: 5px;
+            background-color: #03e9f4;
+            box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+                0 0 100px #03e9f4;
+        }
+
+        .account .custom-button span {
+            position: absolute;
+            background-color: #03e9f4;
+            transition: all 0.5s;
+        }
+
+        .account .custom-button span:first-child {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            animation: move1 1s linear infinite;
+        }
+
+        .account .custom-button span:nth-child(2) {
+            right: 0;
+            top: -100%;
+            width: 2px;
+            height: 100%;
+            animation: move2 1s linear 0.25s infinite;
+        }
+
+        .account .custom-button span:nth-child(3) {
+            right: -100%;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            animation: move3 1s linear 0.5s infinite;
+        }
+
+        .account .custom-button span:last-child {
+            left: 0;
+            bottom: -100%;
+            width: 2px;
+            height: 100%;
+            animation: move4 1s linear 0.75s infinite;
+        }
+
+
+
+        @keyframes move1 {
+            0% {
+                left: -100%;
+            }
+
+            50%,
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes move2 {
+            0% {
+                top: -100%;
+            }
+
+            50%,
+            100% {
+                top: 100%;
+            }
+        }
+
+        @keyframes move3 {
+            0% {
+                right: -100%;
+            }
+
+            50%,
+            100% {
+                right: 100%;
+            }
+        }
+
+        @keyframes move4 {
+            0% {
+                bottom: -100%;
+            }
+
+            50%,
+            100% {
+                bottom: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/login/">车辆检测管理系统</a>
+        </div>
+    </nav>
+    <div class="account">
+        <h2>用户登录</h2>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <label>用户名</label>
+                {{form.username}}
+                <span style="color:red;">{{form.username.errors.0}}</span>
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                {{form.password}}
+                <span style="color:red;">{{form.password.errors.0}}</span>
+            </div>
+            <div class="button-container">
+                <button type="submit" class="custom-button">
+                    登录
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <span style="color: red;">{{error_msg}}</span>
+            </div>
+        </form>
+
+        <script src="{% static 'js/jquery-3.7.1.min.js'%}"></script>
+        <script src="{% static 'plugins/bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+    </div>
+</body>
+
+</html>
